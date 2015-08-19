@@ -1,0 +1,48 @@
+// Apply the plugin
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.tomcawley:gradle-protobuf-plugin:0.3.2'
+    }
+}
+
+apply plugin: 'gradleProtobufPlugin'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+}
+// Point to your protobuf library for compilation of the generated files
+dependencies {
+    compile 'com.google.protobuf:protobuf-java:2.6.1'
+
+}
+
+// And finally the important stuff
+protoBuf {
+    protoc {
+        'Mac OS X' {
+            path = "/usr/local/bin/protoc"
+        }
+    }
+
+    // Optional, defaults to 'src/main/proto'
+    sourceSets {
+        proto {
+            srcDir = 'src/main/proto'
+        }
+    }
+
+    lang {
+        java {
+            genDir = 'src/main/java'
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
